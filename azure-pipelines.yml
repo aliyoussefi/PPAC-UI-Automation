@@ -39,3 +39,8 @@ steps:
     configuration: '$(buildConfiguration)'
     runSettingsFile: $(Agent.BuildDirectory)/s/Microsoft.Dynamics365.UIAutomation.Sample/PowerPlatformAdminCenter.runsettings
     overrideTestrunParameters: '-OnlineUsername $(OnlineUsername) -OnlinePassword $(OnlinePassword) -OnlineCrmUrl $(OnlineCrmUrl) -AzureKey $(AzureKey) -BrowserType $(BrowserType)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: '**/*Sample*/*.csproj'
