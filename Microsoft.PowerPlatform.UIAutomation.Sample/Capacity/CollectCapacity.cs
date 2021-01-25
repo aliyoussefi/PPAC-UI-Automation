@@ -39,6 +39,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
                 powerPlatformClient.OnlineLogin.Login(new Uri("https://admin.powerplatform.microsoft.com"), _username.ToSecureString(), _password.ToSecureString());
                 powerPlatformClient.Capacity.OpenCapacity();
                 string strFileName = String.Format("CapacitySummaryOn_{0}.{1}", DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), ScreenshotImageFormat.Png);
+                powerPlatformClient.Browser.ThinkTime(1000);
                 powerPlatformClient.Browser.TakeWindowScreenShot(strFileName, ScreenshotImageFormat.Png);
                 powerPlatformClient.Capacity.ChangeTab("Storage capacity");
                 powerPlatformClient.Capacity.GetAllEnvironments();

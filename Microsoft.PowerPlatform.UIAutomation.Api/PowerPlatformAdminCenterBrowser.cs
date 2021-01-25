@@ -34,7 +34,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Api
         }
 
         public void Dispose() {
-            throw new NotImplementedException();
+            Browser.Dispose();
         }
 
         public OnlineLogin OnlineLogin => this.GetPage<OnlineLogin>(this);
