@@ -30,7 +30,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
             _password = _testContext.Properties["OnlinePassword"].ToString();
             _xrmUri = new Uri(_testContext.Properties["OnlineCrmUrl"].ToString());
             _browserType = (BrowserType)Enum.Parse(typeof(BrowserType), _testContext.Properties["BrowserType"].ToString());
-            _azureKey = (!String.IsNullOrEmpty(_testContext.Properties["OnlineUsername"].ToString())) ? _testContext.Properties["OnlineUsername"].ToString() : "";
+            _azureKey = (!String.IsNullOrEmpty(_testContext.Properties["AzureKey"].ToString())) ? _testContext.Properties["AzureKey"].ToString() : "";
         }
         [TestMethod]
         public void CollectCapacityForAllEnvironments() {
