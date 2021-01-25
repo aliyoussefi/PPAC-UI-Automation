@@ -36,8 +36,10 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'test'
-    projects: '**/*Sample*/*.csproj'
+    command: 'custom'
+    custom: 'vstest'
+    projects: '$(Agent.BuildDirectory)\Microsoft.PowerPlatform.UIAutomation.Sample.dll'
+    arguments: '--Logger:trx --Settings:$(Agent.BuildDirectory)/s/Microsoft.PowerPlatform.UIAutomation.Sample/PowerPlatformAdminCenter.runsettings -- TestRunParameters.Parameter(name=\"OnlineUsername\", value=\"$(OnlineUsername)\") -- TestRunParameters.Parameter(name=\"OnlinePassword\", value=\"$(OnlinePassword)\") -- TestRunParameters.Parameter(name=\"AzureKey\", value=\"$(AzureKey)\") RunConfiguration.TestSessionTimeout=120000'
   
 - task: VSTest@2
   inputs:
