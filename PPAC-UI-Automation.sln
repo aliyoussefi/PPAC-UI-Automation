@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Dynamics365.UIAutomation.Browser", "Microsoft.Dynamics365.UIAutomation.Browser\Microsoft.Dynamics365.UIAutomation.Browser.csproj", "{34226E58-C847-435F-9169-01010027C270}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.PowerPlatform.UIAutomation.Sample", "Microsoft.Dynamics365.UIAutomation.Sample\Microsoft.PowerPlatform.UIAutomation.Sample.csproj", "{4EF5BEEE-2D21-4084-A495-1034FAD89CA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.PowerPlatform.UIAutomation.Sample", "Microsoft.PowerPlatform.UIAutomation.Sample\Microsoft.PowerPlatform.UIAutomation.Sample.csproj", "{4EF5BEEE-2D21-4084-A495-1034FAD89CA8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.PowerPlatform.UIAutomation.Api", "Microsoft.PowerPlatform.UIAutomation.Api\Microsoft.PowerPlatform.UIAutomation.Api.csproj", "{60E61062-E0E6-4A39-9DE7-93683365CED5}"
 EndProject
