@@ -19,6 +19,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
         private static Uri _xrmUri;
         private static string _azureKey = "";
         private static string _defaultDownloadDirectory = "";
+        private static string _driversPath = "";
         private static string _environmentId = "";
         public TestContext TestContext { get; set; }
 
@@ -35,10 +36,12 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
             _azureKey = (!String.IsNullOrEmpty(_testContext.Properties["AzureKey"].ToString())) ? _testContext.Properties["AzureKey"].ToString() : "";
             _defaultDownloadDirectory = (!String.IsNullOrEmpty(_testContext.Properties["DefaultDownloadDirectory"].ToString())) ? _testContext.Properties["DefaultDownloadDirectory"].ToString() : "";
             _environmentId = _testContext.Properties["EnvironmentId"].ToString();
+            _driversPath = _testContext.Properties["DriversPath"].ToString();
         }
         [TestMethod]
         public void CollectCapacityForAllEnvironments() {
             string sessionId = Guid.NewGuid().ToString();
+            TestSettings.SharedOptions.DriversPath = _driversPath;
             TestSettings.SharedOptions.DownloadsPath = _defaultDownloadDirectory;
             TestSettings.Options.DownloadsPath = _defaultDownloadDirectory;
             using (var powerPlatformClient = new Microsoft.PowerPlatform.UIAutomation.Api.PowerPlatformAdminCenterBrowser(TestSettings.SharedOptions, new Helpers.AppInsightsLogger(_azureKey, sessionId), sessionId)) {
@@ -55,7 +58,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
                 }
                 else
                 {
-                    powerPlatformClient.Capacity.();
+                    powerPlatformClient.Capacity.DrillIntoSpecificEnvironment(_environmentId);
                 }
                 
                 powerPlatformClient.Browser.ThinkTime(5000);

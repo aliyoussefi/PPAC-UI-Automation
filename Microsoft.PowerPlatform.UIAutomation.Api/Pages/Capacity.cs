@@ -251,15 +251,15 @@ namespace Microsoft.PowerPlatform.UIAutomation.Api
             downloadButton.Click();
         }
 
-        public static void DrillIntoSpecificEnvironment(IWebDriver driver, string environmentId)
+        public void DrillIntoSpecificEnvironment(string environmentId)
         {
             //Drill into Environment
-            driver.Navigate().GoToUrl("https://admin.powerplatform.microsoft.com/resources/capacity/environment/" + environmentId);
+            _client.Browser.Driver.Navigate().GoToUrl("https://admin.powerplatform.microsoft.com/resources/capacity/environment/" + environmentId);
             Thread.Sleep(10000);
-            IWebElement svgObject = driver.FindElement(By.XPath("//*[local-name()='svg']//*[local-name()='rect' and @class='highcharts-button-box']"));
-            Actions builder = new Actions(driver);
+            IWebElement svgObject = _client.Browser.Driver.FindElement(By.XPath("//*[local-name()='svg']//*[local-name()='rect' and @class='highcharts-button-box']"));
+            Actions builder = new Actions(_client.Browser.Driver);
             builder.Click(svgObject).Build().Perform();
-            IWebElement downloadButton = driver.FindElement(By.XPath("//*[text()='Download all tables']"));
+            IWebElement downloadButton = _client.Browser.Driver.FindElement(By.XPath("//*[text()='Download all tables']"));
             downloadButton.Click();
         }
 
