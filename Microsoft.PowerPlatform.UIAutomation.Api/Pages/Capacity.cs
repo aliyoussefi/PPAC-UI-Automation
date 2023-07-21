@@ -240,9 +240,21 @@ namespace Microsoft.PowerPlatform.UIAutomation.Api
             });
         }
 
-        private static void DrillIntoSpecificEnvironment(IWebDriver driver, IWebElement environmentRow) {
+        public static void DrillIntoSpecificEnvironment(IWebDriver driver, IWebElement environmentRow) {
             //Drill into Environment
             environmentRow.FindElement(By.TagName("button")).Click();
+            Thread.Sleep(10000);
+            IWebElement svgObject = driver.FindElement(By.XPath("//*[local-name()='svg']//*[local-name()='rect' and @class='highcharts-button-box']"));
+            Actions builder = new Actions(driver);
+            builder.Click(svgObject).Build().Perform();
+            IWebElement downloadButton = driver.FindElement(By.XPath("//*[text()='Download all tables']"));
+            downloadButton.Click();
+        }
+
+        public static void DrillIntoSpecificEnvironment(IWebDriver driver, string environmentId)
+        {
+            //Drill into Environment
+            driver.Navigate().GoToUrl("https://admin.powerplatform.microsoft.com/resources/capacity/environment/" + environmentId);
             Thread.Sleep(10000);
             IWebElement svgObject = driver.FindElement(By.XPath("//*[local-name()='svg']//*[local-name()='rect' and @class='highcharts-button-box']"));
             Actions builder = new Actions(driver);

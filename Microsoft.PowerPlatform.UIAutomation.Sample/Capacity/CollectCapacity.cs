@@ -19,6 +19,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
         private static Uri _xrmUri;
         private static string _azureKey = "";
         private static string _defaultDownloadDirectory = "";
+        private static string _environmentId = "";
         public TestContext TestContext { get; set; }
 
         private static TestContext _testContext;
@@ -33,6 +34,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
             _browserType = (BrowserType)Enum.Parse(typeof(BrowserType), _testContext.Properties["BrowserType"].ToString());
             _azureKey = (!String.IsNullOrEmpty(_testContext.Properties["AzureKey"].ToString())) ? _testContext.Properties["AzureKey"].ToString() : "";
             _defaultDownloadDirectory = (!String.IsNullOrEmpty(_testContext.Properties["DefaultDownloadDirectory"].ToString())) ? _testContext.Properties["DefaultDownloadDirectory"].ToString() : "";
+            _environmentId = _testContext.Properties["EnvironmentId"].ToString();
         }
         [TestMethod]
         public void CollectCapacityForAllEnvironments() {
@@ -47,7 +49,15 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
                 powerPlatformClient.Browser.ThinkTime(1000);
                 //powerPlatformClient.Browser.TakeWindowScreenShot(strFileName, ScreenshotImageFormat.Png);
                 //powerPlatformClient.Capacity.ChangeTab("Storage capacity");
-                powerPlatformClient.Capacity.GetAllEnvironments();
+                if (String.IsNullOrEmpty(_environmentId))
+                {
+                    powerPlatformClient.Capacity.GetAllEnvironments();
+                }
+                else
+                {
+                    powerPlatformClient.Capacity.();
+                }
+                
                 powerPlatformClient.Browser.ThinkTime(5000);
             }
         }

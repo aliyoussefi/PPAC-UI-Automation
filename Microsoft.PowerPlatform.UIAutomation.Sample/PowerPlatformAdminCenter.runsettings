@@ -43,6 +43,7 @@
     <Parameter name="OnlineUsername" value="" />
     <Parameter name="OnlinePassword" value="" />
     <Parameter name="OnlineCrmUrl" value="https://admin.powerplatform.microsoft.com" />
+    <Parameter name="EnvironmentId" value="" />
     <Parameter name="BrowserType" value="Chrome" />
     <Parameter name="AzureKey" value="" />
     <Parameter name="DriversPath" value="" />
