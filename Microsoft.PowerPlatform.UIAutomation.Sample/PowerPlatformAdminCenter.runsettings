@@ -46,8 +46,9 @@
     <Parameter name="BrowserType" value="Chrome" />
     <Parameter name="AzureKey" value="" />
     <Parameter name="DriversPath" value="" />
+    <Parameter name="DefaultDownloadDirectory" value="C:\Data" />
     <Parameter name="UsePrivateMode" value="true" />
-    <!-- The following settings are only used if BrowserType = "Remote" above -->
+    <!-- https://portal.azure.com/#@pfecrmonline.onmicrosoft.com/resource/subscriptions/2c9d01b4-7faa-42e4-adc3-197f6c9027c5/resourceGroups/PowerPlatformMonitoring/providers/microsoft.insights/components/MonitoringBusinessApplicationsPlatform/overview -->
     <Parameter name="RemoteBrowserType" value="Chrome" />
     <Parameter name="RemoteHubServer" value="http://1.1.1.1:4444/wd/hub" />
   </TestRunParameters>

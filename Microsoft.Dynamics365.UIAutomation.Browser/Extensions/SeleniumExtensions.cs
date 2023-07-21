@@ -256,7 +256,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Browser
             WebDriverWait wait = new WebDriverWait(driver, timeout);
             try
             {
-                wait.Until(ExpectedConditions.AlertIsPresent());
+                //wait.Until(ExpectedConditions.AlertIsPresent());
                 return true;
             }
             catch (NoSuchElementException) { }

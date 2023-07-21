@@ -8,7 +8,7 @@ using Microsoft.Dynamics365.UIAutomation.Browser;
 using Microsoft.PowerPlatform.UIAutomation.Api;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-
+using OpenQA.Selenium.DevTools;
 
 namespace Microsoft.PowerPlatform.UIAutomation.Sample {
     [TestClass]
@@ -18,6 +18,7 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
         private static BrowserType _browserType;
         private static Uri _xrmUri;
         private static string _azureKey = "";
+        private static string _defaultDownloadDirectory = "";
         public TestContext TestContext { get; set; }
 
         private static TestContext _testContext;
@@ -31,24 +32,54 @@ namespace Microsoft.PowerPlatform.UIAutomation.Sample {
             _xrmUri = new Uri(_testContext.Properties["OnlineCrmUrl"].ToString());
             _browserType = (BrowserType)Enum.Parse(typeof(BrowserType), _testContext.Properties["BrowserType"].ToString());
             _azureKey = (!String.IsNullOrEmpty(_testContext.Properties["AzureKey"].ToString())) ? _testContext.Properties["AzureKey"].ToString() : "";
+            _defaultDownloadDirectory = (!String.IsNullOrEmpty(_testContext.Properties["DefaultDownloadDirectory"].ToString())) ? _testContext.Properties["DefaultDownloadDirectory"].ToString() : "";
         }
         [TestMethod]
         public void CollectCapacityForAllEnvironments() {
             string sessionId = Guid.NewGuid().ToString();
-            using (var powerPlatformClient = new Microsoft.PowerPlatform.UIAutomation.Api.PowerPlatformAdminCenterBrowser(TestSettings.Options, new Helpers.AppInsightsLogger(_azureKey, sessionId), sessionId)) {
+            TestSettings.SharedOptions.DownloadsPath = _defaultDownloadDirectory;
+            TestSettings.Options.DownloadsPath = _defaultDownloadDirectory;
+            using (var powerPlatformClient = new Microsoft.PowerPlatform.UIAutomation.Api.PowerPlatformAdminCenterBrowser(TestSettings.SharedOptions, new Helpers.AppInsightsLogger(_azureKey, sessionId), sessionId)) {
                 powerPlatformClient.OnlineLogin.Login(new Uri("https://admin.powerplatform.microsoft.com"), _username.ToSecureString(), _password.ToSecureString());
-                powerPlatformClient.Capacity.OpenCapacity();
-                string strFileName = String.Format("CapacitySummaryOn_{0}.{1}", DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), ScreenshotImageFormat.Png);
+
+                powerPlatformClient.Browser.Driver.Navigate().GoToUrl("https://admin.powerplatform.microsoft.com/resources/capacity#environments");
+                //powerPlatformClient.Browser.Driver.
                 powerPlatformClient.Browser.ThinkTime(1000);
-                powerPlatformClient.Browser.TakeWindowScreenShot(strFileName, ScreenshotImageFormat.Png);
-                powerPlatformClient.Capacity.ChangeTab("Storage capacity");
+                //powerPlatformClient.Browser.TakeWindowScreenShot(strFileName, ScreenshotImageFormat.Png);
+                //powerPlatformClient.Capacity.ChangeTab("Storage capacity");
                 powerPlatformClient.Capacity.GetAllEnvironments();
-   
+                powerPlatformClient.Browser.ThinkTime(5000);
             }
         }
         [TestMethod]
         public void TestExpectedToThrowException() {
             throw new Exception("This test is expected to fail to provide content for Test Runs in Azure DevOps Build results.");
+        }
+
+        public static DevToolsSession AddExtraHeader(WebClient client)
+        {
+            OpenQA.Selenium.DevTools.IDevTools devTools = client.Browser.Driver as OpenQA.Selenium.DevTools.IDevTools;
+            //Create and Get DevTool Session
+            var session = devTools.GetDevToolsSession();
+
+
+
+            OpenQA.Selenium.DevTools.V114.DevToolsSessionDomains devToolsSession = session.GetVersionSpecificDomains<OpenQA.Selenium.DevTools.V114.DevToolsSessionDomains>();
+            session.Domains.Network.EnableNetwork();
+
+
+
+            devToolsSession.Network.Enable(new OpenQA.Selenium.DevTools.V114.Network.EnableCommandSettings());
+
+
+
+            var extraHeader = new OpenQA.Selenium.DevTools.V114.Network.Headers();
+            extraHeader.Add("X-Info", String.Format("{0}_{1}_{2}", "", DateTime.Now.ToString("MM-dd-yyyy"), Guid.NewGuid().ToString()));
+            devToolsSession.Network.SetExtraHTTPHeaders(new OpenQA.Selenium.DevTools.V114.Network.SetExtraHTTPHeadersCommandSettings
+            {
+                Headers = extraHeader
+            });
+            return session;
         }
 
 

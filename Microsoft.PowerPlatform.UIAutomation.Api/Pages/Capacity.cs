@@ -183,7 +183,6 @@ namespace Microsoft.PowerPlatform.UIAutomation.Api
                 //IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
                 //js.ExecuteScript("window.scrollBy(0,1000)");
                 //DrillIntoSpecificEnvironment(driver, environmentRow);
-
                 return chosenEnvironment;
 
             });
@@ -208,6 +207,8 @@ namespace Microsoft.PowerPlatform.UIAutomation.Api
                     capacityNumbers.Add("File", lines[4]);
                     capacityNumbers.Add("Log", lines[5]);
                     _client._logger.Log(capacityNumbers);
+
+                    DrillIntoSpecificEnvironment(driver, environmentRow);
                 }
             }
 
@@ -243,13 +244,11 @@ namespace Microsoft.PowerPlatform.UIAutomation.Api
             //Drill into Environment
             environmentRow.FindElement(By.TagName("button")).Click();
             Thread.Sleep(10000);
-            //var exportButton = driver.FindElement(By.XPath("//g[@class=\"highcharts-button highcharts-contextbutton highcharts-button-normal\"]"));
-
-            //IWebDriver loadTest01 = driver.SwitchTo().NewWindow(WindowType.Tab);
-            //loadTest01.Navigate().GoToUrl("https://admin.powerplatform.microsoft.com/api/OrgInsights/AllTableSizesReport/Organizations/77551056-38c3-409c-9bbd-e4b223d2313f?StartTime=637443000000000000&EndTime=6374689199999900");
-            IWebElement svgObject = driver.FindElement(By.XPath("//*[local-name()='svg']//*[local-name()='g' and @class='highcharts-button-box'"));
+            IWebElement svgObject = driver.FindElement(By.XPath("//*[local-name()='svg']//*[local-name()='rect' and @class='highcharts-button-box']"));
             Actions builder = new Actions(driver);
             builder.Click(svgObject).Build().Perform();
+            IWebElement downloadButton = driver.FindElement(By.XPath("//*[text()='Download all tables']"));
+            downloadButton.Click();
         }
 
         public BrowserCommandResult<bool> ChangeTab(string tabName)
